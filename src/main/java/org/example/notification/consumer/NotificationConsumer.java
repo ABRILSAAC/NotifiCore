@@ -5,13 +5,15 @@ import org.example.notification.model.EventModel;
 import org.example.notification.model.ReceiverModel;
 
 public class NotificationConsumer {
-    static void main() {
-        EventModel event = new EventModel();
-        ReceiverModel receiver = new ReceiverModel();
+    private final EventModel event;
+    private final ReceiverModel receiver;
 
-        event.setType("RETRASO_MENOR");
-        receiver.setRole("CLIENTE");
-        receiver.setPhone("123456789");
-        new NotificationStrategyFactory(event, receiver).startNotification();
+    public NotificationConsumer(EventModel event, ReceiverModel receiver) {
+        this.event = event;
+        this.receiver = receiver;
+    }
+
+    public void startNotificationFromConsumer(){
+        new  NotificationStrategyFactory(event, receiver).startNotification();
     }
 }

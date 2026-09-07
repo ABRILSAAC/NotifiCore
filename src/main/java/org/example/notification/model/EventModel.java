@@ -2,13 +2,13 @@ package org.example.notification.model;
 
 public class EventModel {
 
-    private String type;
+    private final String type;
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public EventModel(String type) {
         this.type = type;
     }
 }

@@ -28,7 +28,7 @@ public class NotificationStrategyFactory {
     private final Map<String, Map<String, NotificationRuleFactory>> rulesByTypeAndRole = Map.of(
             "RETRASO_MENOR", Map.of(
                 "CLIENTE", new NotificationRuleFactory("SMS", "Tu pedido tiene un retraso menor"),
-                "DEFAULT_ROLE", new NotificationRuleFactory("EMAIL", "Retraso menor reportado.")
+                    DEFAULT_ROLE, new NotificationRuleFactory("EMAIL", "Retraso menor reportado.")
             ),
             "RETRASO_CRITICO", Map.of(
                 "CLIENTE", new NotificationRuleFactory("SMS", "Retraso crítico en tu pedido."),
@@ -43,6 +43,7 @@ public class NotificationStrategyFactory {
     public void startNotification() {
         NotificationRuleFactory rule = resolveRule();
         INotificationStrategy strategy = strategies.get(rule.getStrategy());
+        System.out.println("Strategy de envío: " + strategy.getChannelName());
         NotificationModel model = buildModel(rule.getStrategy(), rule.getMessage());
         strategy.send(model);
     }
@@ -52,7 +53,8 @@ public class NotificationStrategyFactory {
         if (rulesByRole == null) {
             throw new IllegalArgumentException("No hay reglas configuradas para el evento: " + event.getType());
         }
-        return rulesByRole.getOrDefault(receiver.getRole(), rulesByRole.get(DEFAULT_ROLE));
+        String role = receiver.getRole() != null ? receiver.getRole() : DEFAULT_ROLE;
+        return rulesByRole.getOrDefault(role, rulesByRole.get(DEFAULT_ROLE));
     }
 
     private NotificationModel buildModel(String strategyKey, String message) {
