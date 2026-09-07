@@ -10,6 +10,7 @@ public class PushNotificationStrategy implements INotificationStrategy{
 
     @Override
     public void send(NotificationModel notificationModel) {
-        System.out.println("Mensaje: " + notificationModel.getMessage());
+        System.out.println("[" + getChannelName() + "] a " + notificationModel.getRecipientData()
+                + ": " + notificationModel.getMessage());
     }
 }
