@@ -3,6 +3,7 @@ package org.example.notification.consumer;
 import org.example.notification.factory.NotificationStrategyFactory;
 import org.example.notification.factory.PreparedNotification;
 import org.example.notification.model.EventModel;
+import org.example.notification.model.NotificationModel;
 import org.example.notification.model.ReceiverModel;
 
 public class NotificationConsumer {
@@ -17,6 +18,7 @@ public class NotificationConsumer {
 
     public void dispatchNotification() {
         PreparedNotification prepared = factory.create(event, receiver);
-        prepared.strategy().send(prepared.model());
+        NotificationModel notification = prepared.model();
+        prepared.strategy().send(notification);
     }
 }
