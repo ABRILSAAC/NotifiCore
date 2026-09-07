@@ -6,16 +6,13 @@ import org.example.notification.strategy.INotificationStrategy;
 import org.example.notification.strategy.PushNotificationStrategy;
 import org.example.notification.strategy.SmsNotificationStrategy;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class NotificationStrategyFactory {
     private static final String DEFAULT_ROLE = "DEFAULT";
 
-    private EventModel event;
-    private ReceiverModel receiver;
+    private final EventModel event;
+    private final ReceiverModel receiver;
 
     public NotificationStrategyFactory(EventModel event, ReceiverModel receiver) {
         this.event = event;
