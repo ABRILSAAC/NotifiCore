@@ -3,7 +3,6 @@ package org.example.notification.consumer;
 import org.example.notification.factory.NotificationStrategyFactory;
 import org.example.notification.factory.PreparedNotification;
 import org.example.notification.model.EventModel;
-import org.example.notification.model.NotificationModel;
 import org.example.notification.model.ReceiverModel;
 
 import java.util.List;
