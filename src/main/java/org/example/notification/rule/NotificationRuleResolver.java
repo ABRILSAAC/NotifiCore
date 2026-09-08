@@ -4,9 +4,7 @@ import org.example.notification.model.ReceiverModel;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class NotificationRuleResolver {
     private static final String DEFAULT_ROLE = "DEFAULT";
@@ -25,7 +23,7 @@ public class NotificationRuleResolver {
             throw new IllegalStateException("Error leyendo " + RULES_FILE, e);
         }
 
-        Map<String, Map<String, String>> channelsByTypeAndRole = new HashMap<>();
+        Map<String, Map<String, List<String>>> channelsByTypeAndRole = new HashMap<>();
         Map<String, Map<String, String>> messagesByTypeAndRole = new HashMap<>();
 
         for (String key : props.stringPropertyNames()) {
@@ -39,7 +37,10 @@ public class NotificationRuleResolver {
             String value = props.getProperty(key);
 
             if (field.equals("channel")) {
-                channelsByTypeAndRole.computeIfAbsent(eventType, k -> new HashMap<>()).put(role, value);
+                List<String> channels = Arrays.stream(value.split(","))
+                        .map(String::trim)
+                        .toList();
+                channelsByTypeAndRole.computeIfAbsent(eventType, k -> new HashMap<>()).put(role, channels);
             } else if (field.equals("message")) {
                 messagesByTypeAndRole.computeIfAbsent(eventType, k -> new HashMap<>()).put(role, value);
             }
@@ -49,9 +50,9 @@ public class NotificationRuleResolver {
         for (String eventType : channelsByTypeAndRole.keySet()) {
             Map<String, NotificationRule> rulesForType = new HashMap<>();
             for (String role : channelsByTypeAndRole.get(eventType).keySet()) {
-                String channel = channelsByTypeAndRole.get(eventType).get(role);
+                List<String> channels = channelsByTypeAndRole.get(eventType).get(role);
                 String message = messagesByTypeAndRole.get(eventType).get(role);
-                rulesForType.put(role, new NotificationRule(channel, message));
+                rulesForType.put(role, new NotificationRule(channels, message));
             }
             rules.put(eventType, rulesForType);
         }
@@ -64,6 +65,7 @@ public class NotificationRuleResolver {
             throw new IllegalArgumentException("No hay reglas configuradas para el evento: " + event.getType());
         }
         String role = receiver.getRole() != null ? receiver.getRole() : DEFAULT_ROLE;
+
         return rulesByRole.getOrDefault(role, rulesByRole.get(DEFAULT_ROLE));
     }
 }

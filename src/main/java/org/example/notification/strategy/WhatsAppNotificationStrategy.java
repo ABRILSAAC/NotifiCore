@@ -1,20 +1,21 @@
 package org.example.notification.strategy;
 
 import org.example.notification.model.NotificationModel;
-import org.example.notification.model.PushNotificationModel;
 import org.example.notification.model.ReceiverModel;
+import org.example.notification.model.WhatsappNotificationModel;
 
-public class PushNotificationStrategy implements INotificationStrategy{
+public class WhatsAppNotificationStrategy implements  INotificationStrategy{
+
     @Override
     public String getChannelName() {
-        return "PUSH";
+        return "WHATSAPP";
     }
 
     @Override
     public NotificationModel buildModel(ReceiverModel receiver, String message) {
-        PushNotificationModel model = new PushNotificationModel();
+        WhatsappNotificationModel model = new WhatsappNotificationModel();
         model.setMessage(message);
-        model.setReceiverDeviceId(receiver.getDeviceId());
+        model.setWhatsAppNumber(receiver.getPhone());
         return model;
     }
 

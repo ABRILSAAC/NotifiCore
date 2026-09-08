@@ -6,6 +6,8 @@ import org.example.notification.model.EventModel;
 import org.example.notification.model.NotificationModel;
 import org.example.notification.model.ReceiverModel;
 
+import java.util.List;
+
 public class NotificationConsumer {
     private final EventModel event;
     private final ReceiverModel receiver;
@@ -17,8 +19,10 @@ public class NotificationConsumer {
     }
 
     public void dispatchNotification() {
-        PreparedNotification prepared = factory.create(event, receiver);
-        NotificationModel notification = prepared.model();
-        prepared.strategy().send(notification);
+        List<PreparedNotification> preparedList = factory.create(event, receiver);
+
+        for (PreparedNotification prepared : preparedList) {
+            prepared.strategy().send(prepared.model());
+        }
     }
 }

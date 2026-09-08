@@ -7,9 +7,9 @@ void main() {
     //--- Grupo A: camino feliz (regla explícita por rol) ---
 
     //Caso 1
-        EventModel event = new EventModel("RETRASO_MENOR");
-        receiver.setRole("CLIENTE");
-        receiver.setPhone("123456789");
+//        EventModel event = new EventModel("RETRASO_MENOR");
+//        receiver.setRole("CLIENTE");
+//        receiver.setPhone("123456789");
 
     //Caso 2
     //EventModel event = new EventModel("RETRASO_CRITICO");
@@ -87,6 +87,13 @@ void main() {
     //receiver.setRole("CLIENTE");
     // (sin phone)
 
+
+    //--Grupo F: Notificar al mismo cliente con varios canales
+    //Caso 16
+    EventModel event = new EventModel("RETRASO_URGENTE");
+    receiver.setRole("ADMIN");
+    receiver.setPhone("123456789");
+    receiver.setEmail("algo@test.com");
 
     NotificationConsumer notificationConsumer = new NotificationConsumer(event, receiver);
     notificationConsumer.dispatchNotification();

@@ -1,3 +1,4 @@
 package org.example.notification.rule;
+import java.util.List;
 
-public record NotificationRule(String strategy, String message) {}
+public record NotificationRule(List<String> strategies, String message) {}
