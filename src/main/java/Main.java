@@ -2,6 +2,8 @@ import org.example.notification.consumer.NotificationConsumer;
 import org.example.notification.model.EventModel;
 import org.example.notification.model.ReceiverModel;
 
+//Por acá pasó la parca
+
 void main() {
     ReceiverModel receiver = new ReceiverModel();
     //--- Grupo A: camino feliz (regla explícita por rol) ---
